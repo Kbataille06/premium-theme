@@ -1,40 +1,119 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "slideshow": {
       "type": "hero-slideshow",
-      "settings": { "autoplay": true, "interval": 6 },
       "blocks": {
-        "s1": { "type": "slide", "settings": { "eyebrow": "NOUVELLE COLLECTION", "heading": "Votre première accroche", "subheading": "Un sous-titre court et percutant pour présenter la marque.", "button_label": "DÉCOUVRIR", "align": "center", "overlay": 40 } },
-        "s2": { "type": "slide", "settings": { "eyebrow": "ÉDITION LIMITÉE", "heading": "Deuxième message fort", "subheading": "Ajoute une vidéo ou une image de fond dans l'éditeur.", "button_label": "VOIR PLUS", "align": "left", "overlay": 45 } }
+        "slide_XC8H3G": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "overlay": 35,
+            "align": "center",
+            "eyebrow": "",
+            "heading": "Salut almir",
+            "subheading": "",
+            "button_label": "DÉCOUVRIR",
+            "button_url": ""
+          }
+        },
+        "slide_fCLNVf": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "overlay": 35,
+            "align": "center",
+            "eyebrow": "",
+            "heading": "Votre titre ici",
+            "subheading": "",
+            "button_label": "DÉCOUVRIR",
+            "button_url": ""
+          }
+        }
       },
-      "blocks_order": ["s1", "s2"]
+      "block_order": [
+        "slide_XC8H3G",
+        "slide_fCLNVf"
+      ],
+      "settings": {
+        "autoplay": true,
+        "interval": 6
+      }
     },
     "icons": {
       "type": "icon-row",
-      "settings": { "bg_color": "#15181c" },
       "blocks": {
-        "a1": { "type": "arg", "settings": { "icon": "lock", "title": "Paiements sécurisés" } },
-        "a2": { "type": "arg", "settings": { "icon": "truck", "title": "Livraison rapide" } },
-        "a3": { "type": "arg", "settings": { "icon": "heart", "title": "Fabriqué avec soin" } },
-        "a4": { "type": "arg", "settings": { "icon": "shield", "title": "Service de confiance" } }
+        "arg_z9fJnY": {
+          "type": "arg",
+          "settings": {
+            "icon": "heart",
+            "title": "Eco responsable",
+            "text": ""
+          }
+        },
+        "arg_XLMj8p": {
+          "type": "arg",
+          "settings": {
+            "icon": "lock",
+            "title": "Paiements sécurisés",
+            "text": ""
+          }
+        },
+        "arg_YcjAW4": {
+          "type": "arg",
+          "settings": {
+            "icon": "lock",
+            "title": "Paiements sécurisés",
+            "text": ""
+          }
+        }
       },
-      "blocks_order": ["a1", "a2", "a3", "a4"]
+      "block_order": [
+        "arg_z9fJnY",
+        "arg_XLMj8p",
+        "arg_YcjAW4"
+      ],
+      "settings": {
+        "bg_color": "#15181c"
+      }
     },
     "carousel-1": {
       "type": "product-carousel",
-      "settings": { "heading": "Nos", "heading_accent": "best-sellers", "limit": 8, "link_label": "Tout voir" }
+      "settings": {
+        "heading": "Almir",
+        "heading_accent": "best choices",
+        "collection": "",
+        "limit": 4,
+        "link_label": "Tout voir",
+        "link_url": ""
+      }
     },
     "categories": {
       "type": "collection-list",
-      "settings": { "heading": "Nos", "heading_accent": "catégories", "subheading": "Explorez toute la gamme" },
-      "blocks": {
-        "c1": { "type": "category" }, "c2": { "type": "category" }, "c3": { "type": "category" }, "c4": { "type": "category" }, "c5": { "type": "category" }
-      },
-      "blocks_order": ["c1", "c2", "c3", "c4", "c5"]
+      "settings": {
+        "heading": "Nos",
+        "heading_accent": "catégories",
+        "subheading": "Explorez toute la gamme"
+      }
     },
     "featured": {
       "type": "featured-collection",
-      "settings": { "heading": "Coup de", "heading_accent": "cœur", "subheading": "Une sélection à ne pas manquer", "columns": "3", "limit": 6 }
+      "settings": {
+        "heading": "Coup de",
+        "heading_accent": "cœur",
+        "subheading": "Une sélection à ne pas manquer",
+        "collection": "",
+        "columns": "3",
+        "limit": 6
+      }
     },
     "testimonials": {
       "type": "testimonials",
@@ -45,30 +124,31 @@
         "heading": "Avis",
         "heading_accent": "clients",
         "subheading": "Ce que nos clients pensent de nous"
-      },
-      "blocks": {
-        "r1": { "type": "review", "settings": { "author_name": "Client A", "review_text": "Un avis client exemple — remplace par un vrai témoignage.", "product_name": "Produit", "product_price": "—", "purchase_date": "2026" } },
-        "r2": { "type": "review", "settings": { "author_name": "Client B", "review_text": "Un autre avis client exemple à personnaliser.", "product_name": "Produit", "product_price": "—", "purchase_date": "2026" } }
-      },
-      "blocks_order": ["r1", "r2"]
+      }
     },
     "press": {
       "type": "logo-list",
-      "settings": { "heading": "Ils parlent de nous", "scroll": true },
-      "blocks": {
-        "l1": { "type": "logo" }, "l2": { "type": "logo" }, "l3": { "type": "logo" }, "l4": { "type": "logo" }, "l5": { "type": "logo" }, "l6": { "type": "logo" }
-      },
-      "blocks_order": ["l1", "l2", "l3", "l4", "l5", "l6"]
+      "settings": {
+        "heading": "Ils parlent de nous",
+        "scroll": true
+      }
     },
     "faq": {
       "type": "faq",
-      "settings": { "heading": "Questions fréquentes" },
-      "blocks": {
-        "q1": { "type": "question", "settings": { "question": "Question exemple 1 ?", "answer": "Réponse à personnaliser." } },
-        "q2": { "type": "question", "settings": { "question": "Question exemple 2 ?", "answer": "Réponse à personnaliser." } }
-      },
-      "blocks_order": ["q1", "q2"]
+      "settings": {
+        "heading": "Questions fréquentes",
+        "subheading": "Trouvez les réponses aux questions courantes sur nos produits, la livraison, les retours et plus encore."
+      }
     }
   },
-  "order": ["slideshow", "icons", "carousel-1", "categories", "featured", "testimonials", "press", "faq"]
+  "order": [
+    "slideshow",
+    "icons",
+    "carousel-1",
+    "categories",
+    "featured",
+    "testimonials",
+    "press",
+    "faq"
+  ]
 }
