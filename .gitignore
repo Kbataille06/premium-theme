@@ -1,0 +1,16 @@
+# OS / éditeur
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# Dépendances
+node_modules/
+
+# Shopify CLI
+.shopify/
+
+# Logs
+*.log

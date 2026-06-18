@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "collection-main": {
+      "type": "collection",
+      "settings": {
+        "columns": "4",
+        "per_page": 24
+      }
+    }
+  },
+  "order": ["collection-main"]
+}

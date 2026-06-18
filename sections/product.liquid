@@ -1,0 +1,380 @@
+{%- assign product = section.settings.product | default: product -%}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<section class="shop-product" id="product-{{ product.id }}">
+  <div class="container">
+    <div class="shop-product__layout">
+
+      <!-- ── Gallery (thumbnails left, main right) ───────── -->
+      <div class="shop-gallery">
+        {%- if product.media.size > 1 -%}
+          <div class="shop-gallery__thumbs">
+            {%- for media in product.media -%}
+              <button class="shop-gallery__thumb{% if forloop.first %} active{% endif %}" data-media-id="{{ media.id }}" aria-label="View {{ forloop.index }}">
+                {{ media | image_url: width: 120 | image_tag: loading: 'lazy', alt: media.alt | default: product.title }}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        <div class="shop-gallery__main">
+          {%- for media in product.media -%}
+            <div class="shop-gallery__slide{% if forloop.first %} active{% endif %}" data-media-id="{{ media.id }}">
+              {%- if media.media_type == 'video' -%}
+                {{ media | video_tag: image_size: '1024x', controls: true, class: 'shop-gallery__video' }}
+              {%- else -%}
+                {{ media | image_url: width: 1024 | image_tag: loading: forloop.first | ternary: 'eager','lazy', class: 'shop-gallery__img', alt: media.alt | default: product.title }}
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <!-- ── Product info ────────────────────────────────── -->
+      <div class="shop-info">
+
+        {%- if section.settings.show_award_badge -%}
+          <div class="award-badge">
+            <span class="award-badge__rank">#1</span>
+            <span class="award-badge__text">
+              <strong>{{ section.settings.award_title }}</strong>
+              <em>{{ section.settings.award_sub }}</em>
+            </span>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.rating_style == 'text' -%}
+          <div class="shop-rating shop-rating--text">
+            <span class="shop-rating__stars">★★★★★</span>
+            <span class="shop-rating__text">{{ section.settings.rating_label }} {{ section.settings.review_score }}</span>
+          </div>
+        {%- else -%}
+          <div class="shop-rating">
+            <div class="shop-rating__avatars">
+              {%- for i in (1..3) -%}
+                {%- assign key = 'avatar_' | append: i -%}
+                {%- assign img = section.settings[key] -%}
+                <span class="shop-rating__avatar">
+                  {%- if img != blank -%}
+                    {{ img | image_url: width: 60 | image_tag: loading: 'lazy', alt: 'Client' }}
+                  {%- else -%}
+                    <img src="https://i.pravatar.cc/60?img={{ forloop.index | plus: 11 }}" alt="Client" loading="lazy" width="60" height="60">
+                  {%- endif -%}
+                </span>
+              {%- endfor -%}
+            </div>
+            <span class="shop-rating__text">{{ section.settings.rating_label }} {{ section.settings.review_score }}</span>
+            <span class="shop-rating__stars">★★★★★</span>
+          </div>
+        {%- endif -%}
+
+        <div class="shop-divider"></div>
+
+        <h1 class="shop-title">{{ product.title }}</h1>
+
+        {%- if section.settings.show_price -%}
+          {% render 'price', target: current_variant %}
+        {%- endif -%}
+
+        {%- if section.settings.show_bullets -%}
+          <ul class="shop-bullets">
+            {%- for i in (1..3) -%}
+              {%- assign bkey = 'bullet_' | append: i -%}
+              {%- assign bval = section.settings[bkey] -%}
+              {%- if bval != blank -%}
+                <li class="shop-bullets__item">
+                  <svg class="shop-bullets__icon" viewBox="0 0 16 16" width="22" height="22" fill="#313233" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708"/></svg>
+                  {{ bval }}
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if section.settings.show_low_stock -%}
+          <div class="shop-lowstock"><span class="shop-lowstock__dot"></span>{{ section.settings.low_stock_text }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.show_tiktok_comment -%}
+          <div class="tiktok-comment">
+            <div class="tiktok-comment__avatar">
+              {%- if section.settings.tiktok_avatar != blank -%}
+                {{ section.settings.tiktok_avatar | image_url: width: 72 | image_tag: loading: 'lazy', alt: section.settings.tiktok_user }}
+              {%- else -%}
+                <img src="https://i.pravatar.cc/72?img=68" alt="{{ section.settings.tiktok_user }}" loading="lazy" width="72" height="72">
+              {%- endif -%}
+            </div>
+            <div class="tiktok-comment__body">
+              <div class="tiktok-comment__head">
+                <span class="tiktok-comment__user">{{ section.settings.tiktok_user }}</span>
+                <svg class="tiktok-comment__verified" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#20c4f4" width="13" height="13"><path d="M12 2l2.4 2.4 3.4-.6.6 3.4L21 12l-2.6 2.4.6 3.4-3.4.6L12 22l-2.4-2.6-3.4.6-.6-3.4L3 12l2.6-2.4-.6-3.4 3.4.6z"/><path d="M9.5 12.5l2 2 3.5-4" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="tiktok-comment__likes">♥ {{ section.settings.tiktok_likes }}</span>
+              </div>
+              <p class="tiktok-comment__text">{{ section.settings.tiktok_text }}</p>
+              <div class="tiktok-comment__meta">{{ section.settings.tiktok_time }} · Répondre</div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {% form 'product', product, id: 'product-form', novalidate: 'novalidate' %}
+          <input type="hidden" name="id" value="{{ current_variant.id }}" id="product-variant-id">
+
+          <!-- ── Bundle selector ─────────────────────────── -->
+          {%- assign bundle_count = 0 -%}
+          {%- for block in section.blocks -%}{%- if block.type == 'bundle_tier' -%}{%- assign bundle_count = bundle_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
+          {%- if bundle_count > 0 -%}
+            <div class="bundle">
+              <div class="bundle__label-row"><span class="bundle__label">{{ section.settings.bundle_heading }}</span></div>
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'bundle_tier' -%}
+                  {%- assign qty = block.settings.quantity -%}
+                  {%- assign total = current_variant.price | times: qty -%}
+                  {%- assign discounted = total | times: block.settings.discount_pct | divided_by: 100 -%}
+                  {%- assign final = total | minus: discounted -%}
+                  <label class="bundle__option{% if block.settings.preselected %} selected{% endif %}{% if block.settings.highlight %} bundle__option--highlight{% endif %}" data-bundle-qty="{{ qty }}" data-bundle-price="{{ final }}" {{ block.shopify_attributes }}>
+                    {%- if block.settings.badge != blank -%}<span class="bundle__badge">{{ block.settings.badge }}</span>{%- endif -%}
+                    <span class="bundle__radio"></span>
+                    <span class="bundle__main">
+                      <span class="bundle__qty">{{ block.settings.title }}</span>
+                      {%- if block.settings.save_text != blank -%}<span class="bundle__save">{{ block.settings.save_text }}</span>{%- endif -%}
+                      {%- if block.settings.subtext != blank -%}<span class="bundle__subtext">{{ block.settings.subtext }}</span>{%- endif -%}
+                    </span>
+                    <span class="bundle__pricing">
+                      <span class="bundle__price">{{ final | money }}</span>
+                      {%- if block.settings.discount_pct > 0 -%}<span class="bundle__compare">{{ total | money }}</span>{%- endif -%}
+                    </span>
+                    {%- if block.settings.free_gift != blank -%}
+                      <span class="bundle__gift">{{ block.settings.free_gift }}</span>
+                    {%- endif -%}
+                  </label>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          <button type="submit" class="shop-atc" id="product-atc-btn"{% unless current_variant.available %} disabled{% endunless %}>
+            {%- if current_variant.available -%}{{ 'products.product.add_to_cart' | t }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
+          </button>
+
+          {%- if section.settings.show_dynamic_checkout -%}{{ form | payment_button }}{%- endif -%}
+        {% endform %}
+
+        {%- if section.settings.show_viewer_notice -%}
+          <div class="shop-viewer"><span class="shop-viewer__dot"></span>{{ section.settings.viewer_text }}</div>
+        {%- endif -%}
+
+        <div class="shop-guarantees">{{ section.settings.guarantee_text }}</div>
+
+        <div class="shop-payment-icons">
+          {%- for type in shop.enabled_payment_types -%}{{ type | payment_type_svg_tag: class: 'shop-payment-icon' }}{%- endfor -%}
+        </div>
+
+        {%- if section.settings.show_replica_warning -%}
+          <div class="replica-warning">
+            <span class="replica-warning__icon">ⓘ</span>
+            <span><strong>Attention aux contrefaçons.</strong><br>Seule notre marque garantit ce niveau de qualité.</span>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_review_highlight -%}
+          <div class="review-highlight">
+            {%- if section.settings.rh_image != blank -%}
+              <div class="review-highlight__media">
+                {{ section.settings.rh_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: section.settings.rh_author }}
+              </div>
+            {%- endif -%}
+            <div class="review-highlight__body">
+              <div class="review-highlight__head">
+                <span class="review-highlight__author">{{ section.settings.rh_author }}</span>
+                {%- if section.settings.rh_verified -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#2563eb" width="13" height="13"><path d="M12 2l2.4 2.4 3.4-.6.6 3.4L21 12l-2.6 2.4.6 3.4-3.4.6L12 22l-2.4-2.6-3.4.6-.6-3.4L3 12l2.6-2.4-.6-3.4 3.4.6z"/><path d="M9.5 12.5l2 2 3.5-4" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                {%- endif -%}
+                <span class="review-highlight__stars">★★★★★</span>
+              </div>
+              <p class="review-highlight__text">{{ section.settings.rh_text }}</p>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <!-- ── See it in action (carousel dans la colonne) ── -->
+        {%- if section.settings.show_video_carousel -%}
+          <div class="video-carousel">
+            <h2 class="video-carousel__heading">{{ section.settings.video_heading }}</h2>
+            {%- if section.settings.video_badge != blank -%}
+              {%- if section.settings.video_badge_icon == 'instagram' -%}
+                <div class="tiktok-badge tiktok-badge--instagram">
+                  <svg viewBox="0 0 24 24" fill="none" width="11" height="11" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="igGrad-{{ section.id }}" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#833ab4"/>
+                        <stop offset="50%" stop-color="#fd1d1d"/>
+                        <stop offset="100%" stop-color="#fcb045"/>
+                      </linearGradient>
+                    </defs>
+                    <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="url(#igGrad-{{ section.id }})" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="4.5" stroke="url(#igGrad-{{ section.id }})" stroke-width="2"/>
+                    <circle cx="17.5" cy="6.5" r="1.2" fill="url(#igGrad-{{ section.id }})"/>
+                  </svg>
+                  {{ section.settings.video_badge }}
+                </div>
+              {%- else -%}
+                <div class="tiktok-badge">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="10" height="10"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/></svg>
+                  {{ section.settings.video_badge }}
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+            <div class="video-carousel__track">
+              {%- for i in (1..4) -%}
+                {%- assign key = 'video_' | append: i -%}
+                {%- assign video = section.settings[key] -%}
+                <div class="video-carousel__item">
+                  {%- if video != blank -%}
+                    {{ video | video_tag: muted: true, loop: true, autoplay: true, controls: false, playsinline: true, class: 'video-carousel__video' }}
+                    <button type="button" class="video-carousel__mute" data-video-mute aria-label="Activer ou couper le son">
+                      <svg class="video-carousel__mute-off" viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                      <svg class="video-carousel__mute-on" viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                    </button>
+                  {%- else -%}
+                    <div class="video-carousel__ph">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        <!-- ── Accordéon intégré (Description + FAQ) ───────── -->
+        {%- assign faq_count = 0 -%}
+        {%- for block in section.blocks -%}{%- if block.type == 'faq_item' -%}{%- assign faq_count = faq_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
+        {%- if section.settings.show_inline_faq -%}
+          <div class="inline-faq">
+            {%- if section.settings.inline_desc_label != blank and product.description != blank -%}
+              <details class="inline-faq__item">
+                <summary class="inline-faq__q">
+                  <span>{{ section.settings.inline_desc_label }}</span>
+                  <span class="inline-faq__icon" aria-hidden="true">+</span>
+                </summary>
+                <div class="inline-faq__a rte">{{ product.description }}</div>
+              </details>
+            {%- endif -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'faq_item' -%}
+                <details class="inline-faq__item" {{ block.shopify_attributes }}>
+                  <summary class="inline-faq__q">
+                    <span>{{ block.settings.question }}</span>
+                    <span class="inline-faq__icon" aria-hidden="true">+</span>
+                  </summary>
+                  <div class="inline-faq__a"><p>{{ block.settings.answer }}</p></div>
+                </details>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="application/json" id="product-variants-json">{{ product.variants | json }}</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "tag": "section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product" },
+    { "type": "header", "content": "Badge récompense" },
+    { "type": "checkbox", "id": "show_award_badge", "label": "Afficher le badge", "default": true },
+    { "type": "text", "id": "award_title", "label": "Titre", "default": "MEILLEURE VENTE SUR TIKTOK" },
+    { "type": "text", "id": "award_sub", "label": "Sous-titre", "default": "élu l'un des meilleurs produits sur TikTok" },
+    { "type": "header", "content": "Note & avatars" },
+    { "type": "select", "id": "rating_style", "label": "Style de note", "options": [ { "value": "avatars", "label": "Avatars + étoiles (TikTok)" }, { "value": "text", "label": "Étoiles + texte (Instagram)" } ], "default": "avatars" },
+    { "type": "text", "id": "rating_label", "label": "Texte de la note", "default": "Adoré par 8000+" },
+    { "type": "text", "id": "review_score", "label": "Score", "default": "4,93" },
+    { "type": "header", "content": "Prix & arguments" },
+    { "type": "checkbox", "id": "show_price", "label": "Afficher le prix", "default": false },
+    { "type": "checkbox", "id": "show_bullets", "label": "Afficher la liste d'arguments", "default": false },
+    { "type": "text", "id": "bullet_1", "label": "Argument 1", "default": "Son cristallin" },
+    { "type": "text", "id": "bullet_2", "label": "Argument 2", "default": "Chrome premium" },
+    { "type": "text", "id": "bullet_3", "label": "Argument 3", "default": "Conçu pour un usage quotidien" },
+    { "type": "checkbox", "id": "show_low_stock", "label": "Afficher l'alerte stock faible", "default": false },
+    { "type": "text", "id": "low_stock_text", "label": "Texte stock faible", "default": "STOCK FAIBLE (9 ARTICLES), PRÊT À EXPÉDIER" },
+    { "type": "image_picker", "id": "avatar_1", "label": "Avatar client 1 (vide = photo par défaut)" },
+    { "type": "image_picker", "id": "avatar_2", "label": "Avatar client 2 (vide = photo par défaut)" },
+    { "type": "image_picker", "id": "avatar_3", "label": "Avatar client 3 (vide = photo par défaut)" },
+    { "type": "header", "content": "Commentaire TikTok" },
+    { "type": "checkbox", "id": "show_tiktok_comment", "label": "Afficher le commentaire", "default": true },
+    { "type": "image_picker", "id": "tiktok_avatar", "label": "Photo de profil (vide = photo par défaut)" },
+    { "type": "text", "id": "tiktok_user", "label": "Nom d'utilisateur", "default": "dontolivermusic" },
+    { "type": "text", "id": "tiktok_likes", "label": "J'aime", "default": "9,2K" },
+    { "type": "textarea", "id": "tiktok_text", "label": "Commentaire", "default": "@chromabuds sont incroyables. J'adore la finition chrome. Je les porte tout le temps 🔥" },
+    { "type": "text", "id": "tiktok_time", "label": "Date", "default": "il y a 3j" },
+    { "type": "header", "content": "Pack / Bundle" },
+    { "type": "text", "id": "bundle_heading", "label": "Titre du bundle", "default": "Édition Limitée - Bientôt épuisé" },
+    { "type": "header", "content": "Boutons & réassurance" },
+    { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Boutons de paiement express", "default": true },
+    { "type": "text", "id": "payment_options_text", "label": "Texte autres paiements", "default": "Plus d'options de paiement" },
+    { "type": "checkbox", "id": "show_viewer_notice", "label": "Afficher « X personnes regardent »", "default": false },
+    { "type": "text", "id": "viewer_text", "label": "Texte viewers", "default": "Vente rapide ! 39 personnes regardent ce produit" },
+    { "type": "text", "id": "guarantee_text", "label": "Texte garantie (le | est affiché tel quel)", "default": "🛡️ Garantie 30 jours satisfait ou remboursé | ✓ Livraison gratuite incluse" },
+    { "type": "checkbox", "id": "show_replica_warning", "label": "Afficher l'avertissement contrefaçons", "default": true },
+    { "type": "header", "content": "Avis en avant (Instagram)" },
+    { "type": "checkbox", "id": "show_review_highlight", "label": "Afficher l'avis en avant", "default": false },
+    { "type": "image_picker", "id": "rh_image", "label": "Image de fond" },
+    { "type": "text", "id": "rh_author", "label": "Auteur", "default": "Leo Baker" },
+    { "type": "checkbox", "id": "rh_verified", "label": "Vérifié", "default": true },
+    { "type": "textarea", "id": "rh_text", "label": "Avis", "default": "Ces couleurs chrome sont incroyables ! J'ai pris le pack et je ne suis pas déçu. Je recommande avant qu'ils soient à nouveau épuisés." },
+    { "type": "header", "content": "Vidéos (carousel)" },
+    { "type": "checkbox", "id": "show_video_carousel", "label": "Afficher le carousel vidéo", "default": true },
+    { "type": "text", "id": "video_heading", "label": "Titre", "default": "Voir en action" },
+    { "type": "select", "id": "video_badge_icon", "label": "Icône badge", "options": [ { "value": "tiktok", "label": "TikTok" }, { "value": "instagram", "label": "Instagram" } ], "default": "tiktok" },
+    { "type": "text", "id": "video_badge", "label": "Badge", "default": "Plus de 56M de vues sur TikTok" },
+    { "type": "video", "id": "video_1", "label": "Vidéo 1" },
+    { "type": "video", "id": "video_2", "label": "Vidéo 2" },
+    { "type": "video", "id": "video_3", "label": "Vidéo 3" },
+    { "type": "video", "id": "video_4", "label": "Vidéo 4" },
+    { "type": "header", "content": "Accordéon (sous les vidéos)" },
+    { "type": "checkbox", "id": "show_inline_faq", "label": "Afficher l'accordéon", "default": true },
+    { "type": "text", "id": "inline_desc_label", "label": "Libellé Description (vide = masqué)", "default": "Description" }
+  ],
+  "blocks": [
+    {
+      "type": "bundle_tier",
+      "name": "Pack",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "1 Paire" },
+        { "type": "number", "id": "quantity", "label": "Quantité", "default": 1 },
+        { "type": "range", "id": "discount_pct", "label": "Remise %", "min": 0, "max": 60, "step": 1, "unit": "%", "default": 3 },
+        { "type": "text", "id": "save_text", "label": "Badge économie", "default": "-3%" },
+        { "type": "text", "id": "subtext", "label": "Sous-texte", "default": "Vous économisez 3%" },
+        { "type": "text", "id": "badge", "label": "Badge coin (LE PLUS POPULAIRE…)" },
+        { "type": "text", "id": "free_gift", "label": "Barre cadeau offert" },
+        { "type": "checkbox", "id": "highlight", "label": "Mettre en avant (bordure foncée)", "default": false },
+        { "type": "checkbox", "id": "preselected", "label": "Présélectionné", "default": false }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "Question (accordéon)",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Quelle est la qualité du son ?" },
+        { "type": "textarea", "id": "answer", "label": "Réponse", "default": "Exceptionnelle. Aigus nets, médiums équilibrés et basses propres." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product",
+      "blocks": [
+        { "type": "bundle_tier", "settings": { "title": "1 Paire", "quantity": 1, "discount_pct": 3, "save_text": "-3%", "subtext": "Vous économisez 3%" } },
+        { "type": "bundle_tier", "settings": { "title": "2 Paires", "quantity": 2, "discount_pct": 27, "save_text": "-27%", "subtext": "Vous économisez 27%", "badge": "LE PLUS POPULAIRE", "free_gift": "+ ÉTUI DE TRANSPORT OFFERT", "highlight": true, "preselected": true } },
+        { "type": "bundle_tier", "settings": { "title": "3 Paires", "quantity": 3, "discount_pct": 35, "save_text": "-35%", "subtext": "Vous économisez 35%", "badge": "MEILLEURE OFFRE", "free_gift": "+ ÉTUI DE TRANSPORT OFFERT" } },
+        { "type": "faq_item", "settings": { "question": "Quelle est la qualité du son ?", "answer": "Exceptionnelle. Aigus nets, médiums équilibrés et basses propres, pour un son haute-fidélité." } },
+        { "type": "faq_item", "settings": { "question": "Y a-t-il un micro intégré ?", "answer": "Oui, chaque paire inclut un micro en ligne pour les appels et commandes vocales." } },
+        { "type": "faq_item", "settings": { "question": "Garantie satisfait ou remboursé 100%", "answer": "Garantie 30 jours satisfait ou remboursé sur toutes les commandes." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

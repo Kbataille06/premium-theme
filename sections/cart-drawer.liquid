@@ -1,0 +1,105 @@
+{%- assign threshold = section.settings.free_shipping_threshold | times: 100 -%}
+<div class="cart-drawer__inner" data-cart-inner>
+
+  <header class="cart-drawer__header">
+    <span class="cart-drawer__title">{{ section.settings.title }} <span class="cart-drawer__count">{{ cart.item_count }}</span></span>
+    <button class="cart-drawer__close" data-cart-close aria-label="{{ 'accessibility.close' | t }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="22" height="22"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </header>
+
+  {%- if section.settings.show_free_shipping -%}
+    <div class="cart-drawer__shipping">
+      {%- if cart.total_price >= threshold and cart.item_count > 0 -%}
+        <p class="cart-drawer__shipping-text">🎉 {{ section.settings.unlocked_text }}</p>
+        {%- assign pct = 100 -%}
+      {%- else -%}
+        {%- assign remaining = threshold | minus: cart.total_price -%}
+        <p class="cart-drawer__shipping-text">{{ section.settings.progress_text }} <strong>{{ remaining | money }}</strong></p>
+        {%- assign pct = cart.total_price | times: 100 | divided_by: threshold -%}
+      {%- endif -%}
+      <div class="cart-drawer__bar">
+        <div class="cart-drawer__bar-fill" style="width: {{ pct }}%;">
+          <span class="cart-drawer__bar-icon">🚚</span>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if cart.item_count > 0 -%}
+    <div class="cart-drawer__items">
+      {%- for item in cart.items -%}
+        <div class="cart-drawer__item" data-key="{{ item.key }}">
+          <a href="{{ item.url }}" class="cart-drawer__item-img">
+            {%- if item.image -%}{{ item.image | image_url: width: 160 | image_tag: loading: 'lazy', alt: item.title }}{%- endif -%}
+          </a>
+          <div class="cart-drawer__item-info">
+            <div class="cart-drawer__item-top">
+              <a href="{{ item.url }}" class="cart-drawer__item-title">{{ item.product.title }}</a>
+              <span class="cart-drawer__item-price">
+                {%- if item.original_line_price > item.final_line_price -%}
+                  <s>{{ item.original_line_price | money }}</s>
+                {%- endif -%}
+                {{ item.final_line_price | money }}
+              </span>
+            </div>
+            {%- unless item.product.has_only_default_variant -%}
+              <div class="cart-drawer__item-opts">
+                {%- for opt in item.options_with_values -%}
+                  <span class="cart-drawer__item-opt">{{ opt.name }}: {{ opt.value }}</span>
+                {%- endfor -%}
+              </div>
+            {%- endunless -%}
+            {%- if item.original_line_price > item.final_line_price -%}
+              {%- assign saved = item.original_line_price | minus: item.final_line_price -%}
+              <span class="cart-drawer__item-save">Économie {{ saved | money }}</span>
+            {%- endif -%}
+            <div class="cart-drawer__item-bottom">
+              <div class="cart-drawer__qty">
+                <button data-cart-minus aria-label="Diminuer">−</button>
+                <span class="cart-drawer__qty-val">{{ item.quantity }}</span>
+                <button data-cart-plus aria-label="Augmenter">+</button>
+              </div>
+              <button class="cart-drawer__remove" data-cart-remove aria-label="Retirer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <footer class="cart-drawer__footer">
+      <div class="cart-drawer__total">
+        <span>Total : {{ cart.item_count }} article{% if cart.item_count > 1 %}s{% endif %}</span>
+        <span class="cart-drawer__total-price">
+          {%- if cart.original_total_price > cart.total_price -%}<s>{{ cart.original_total_price | money }}</s>{%- endif -%}
+          {{ cart.total_price | money }}
+        </span>
+      </div>
+      <a href="/checkout" class="cart-drawer__checkout">{{ section.settings.checkout_text }}</a>
+      <div class="cart-drawer__guarantee">🛡️ {{ section.settings.guarantee_text }}</div>
+    </footer>
+  {%- else -%}
+    <div class="cart-drawer__empty">
+      <p>{{ 'cart.general.empty' | t }}</p>
+      <a href="{{ routes.all_products_collection_url }}" class="cart-drawer__continue" data-cart-close>Continuer mes achats</a>
+    </div>
+  {%- endif -%}
+
+</div>
+
+{% schema %}
+{
+  "name": "Cart drawer",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre", "default": "Votre Panier" },
+    { "type": "checkbox", "id": "show_free_shipping", "label": "Barre livraison gratuite", "default": true },
+    { "type": "number", "id": "free_shipping_threshold", "label": "Seuil livraison gratuite (devise entière)", "default": 20 },
+    { "type": "text", "id": "progress_text", "label": "Texte progression", "default": "Plus que" },
+    { "type": "text", "id": "unlocked_text", "label": "Texte débloqué", "default": "Bravo, vous avez la livraison gratuite !" },
+    { "type": "text", "id": "checkout_text", "label": "Texte bouton", "default": "PAIEMENT SÉCURISÉ" },
+    { "type": "text", "id": "guarantee_text", "label": "Garantie", "default": "Garantie 30 jours satisfait ou remboursé" }
+  ]
+}
+{% endschema %}

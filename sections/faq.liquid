@@ -1,0 +1,97 @@
+<section class="faq2 section-padding">
+  <div class="container">
+    <div class="faq2__header text-center">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="faq2__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="faq2__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- assign half = section.blocks.size | plus: 1 | divided_by: 2 -%}
+    <div class="faq2__cols">
+      {%- comment -%} Colonne 1 : première moitié (ordre conservé) {%- endcomment -%}
+      <div class="faq2__col">
+        {%- for block in section.blocks -%}
+          {%- if forloop.index0 < half -%}
+            <details class="faq2__item" {{ block.shopify_attributes }}>
+              <summary class="faq2__q">
+                <span>{{ block.settings.question }}</span>
+                <span class="faq2__icon" aria-hidden="true">+</span>
+              </summary>
+              <div class="faq2__a">{{ block.settings.answer }}</div>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%} Colonne 2 : seconde moitié {%- endcomment -%}
+      <div class="faq2__col">
+        {%- for block in section.blocks -%}
+          {%- if forloop.index0 >= half -%}
+            <details class="faq2__item" {{ block.shopify_attributes }}>
+              <summary class="faq2__q">
+                <span>{{ block.settings.question }}</span>
+                <span class="faq2__icon" aria-hidden="true">+</span>
+              </summary>
+              <div class="faq2__a">{{ block.settings.answer }}</div>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Trouvez les réponses aux questions courantes sur nos produits, la livraison, les retours et plus encore."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Are these earbuds compatible with my device?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "Yes — we offer USB-C and Lightning cable versions, so they work with all modern iPhones, Android devices, laptops, and more."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "question", "settings": { "question": "Are these earbuds compatible with my device?", "answer": "Yes — we offer USB-C and Lightning cable versions, so they work with all modern iPhones, Android devices, laptops, and more." } },
+        { "type": "question", "settings": { "question": "How is the sound quality?", "answer": "Exceptional. Crisp highs, balanced mids, and clean bass — engineered for high-fidelity audio in a compact form." } },
+        { "type": "question", "settings": { "question": "Do they have any delay?", "answer": "No — wired connection means zero latency. Perfect for gaming, video calls, and music production." } },
+        { "type": "question", "settings": { "question": "Will the cable tangle easily?", "answer": "The cable is designed to resist twisting and knotting, so it stays clean in your pocket or bag." } },
+        { "type": "question", "settings": { "question": "Are they comfortable for long use?", "answer": "Absolutely. The ergonomic design allows for a natural, secure fit over extended listening sessions." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

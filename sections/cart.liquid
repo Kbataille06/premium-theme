@@ -1,0 +1,76 @@
+<section class="cart-page section-padding">
+  <div class="container">
+    <h1 class="cart-page__title">{{ 'cart.general.title' | t }}</h1>
+
+    {%- if cart.item_count > 0 -%}
+      {% form 'cart', cart, class: 'cart-form' %}
+        <div class="cart-page__layout">
+          <div class="cart-page__items">
+            {%- for item in cart.items -%}
+              <div class="cart-item" data-cart-item="{{ item.key }}">
+                <a href="{{ item.url }}" class="cart-item__image-link">
+                  {{
+                    item.image
+                    | image_url: width: 200
+                    | image_tag: loading: 'lazy', class: 'cart-item__image', alt: item.title
+                  }}
+                </a>
+                <div class="cart-item__info">
+                  <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title }}</a>
+                  {%- unless item.product.has_only_default_variant -%}
+                    <p class="cart-item__variant">{{ item.variant.title }}</p>
+                  {%- endunless -%}
+                  <div class="cart-item__qty-row">
+                    <div class="qty-selector qty-selector--sm">
+                      <button type="button" class="qty-selector__btn" data-cart-qty-decrement="{{ item.key }}">−</button>
+                      <input class="qty-selector__input" type="number" name="updates[]" value="{{ item.quantity }}" min="0" data-cart-qty-input="{{ item.key }}">
+                      <button type="button" class="qty-selector__btn" data-cart-qty-increment="{{ item.key }}">+</button>
+                    </div>
+                    <button type="button" class="cart-item__remove" data-cart-remove="{{ item.key }}" aria-label="Retirer {{ item.title }}">
+                      Retirer
+                    </button>
+                  </div>
+                </div>
+                <div class="cart-item__price">{{ item.final_line_price | money }}</div>
+              </div>
+            {%- endfor -%}
+          </div>
+
+          <div class="cart-page__summary">
+            <div class="cart-summary">
+              <div class="cart-summary__row">
+                <span>{{ 'cart.general.subtotal' | t }}</span>
+                <span class="cart-summary__price">{{ cart.total_price | money }}</span>
+              </div>
+              <p class="cart-summary__tax-note">Taxes et livraison calculées au paiement</p>
+              <button type="submit" name="checkout" class="btn btn--primary btn--full btn--lg">
+                PAIEMENT SÉCURISÉ →
+              </button>
+              {%- if additional_checkout_buttons -%}
+                <div class="cart-summary__dynamic-checkout">
+                  {{ content_for_additional_checkout_buttons }}
+                </div>
+              {%- endif -%}
+              <div class="cart-summary__trust">
+                <span>🔒 Sécurisé &amp; Crypté</span>
+                <span>🛡️ Retours sous 30 jours</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endform %}
+    {%- else -%}
+      <div class="cart-page__empty">
+        <p class="cart-page__empty-text">{{ 'cart.general.empty' | t }}</p>
+        <a href="{{ routes.root_url }}" class="btn btn--primary">Continuer mes achats</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,97 @@
+<section class="fam-reviews section-padding">
+  <div class="container">
+    <div class="fam-reviews__header text-center">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="fam-reviews__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="fam-reviews__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="fam-reviews__list">
+      {%- for block in section.blocks -%}
+        {%- assign initial = block.settings.author_name | slice: 0 | upcase -%}
+        <article class="fam-review" {{ block.shopify_attributes }}>
+          <div class="fam-review__top">
+            <span class="fam-review__avatar">
+              {%- if block.settings.avatar != blank -%}
+                {{ block.settings.avatar | image_url: width: 80 | image_tag: loading: 'lazy', alt: block.settings.author_name }}
+              {%- else -%}
+                {{ initial }}
+              {%- endif -%}
+            </span>
+            <span class="fam-review__name">
+              <strong>{{ block.settings.author_name }}</strong>
+              {%- if block.settings.review_title != blank -%}
+                <span class="fam-review__title"> - {{ block.settings.review_title }}</span>
+              {%- endif -%}
+            </span>
+          </div>
+
+          <div class="fam-review__meta-row">
+            <span class="fam-review__stars">
+              {%- assign rating = block.settings.rating | default: 5 -%}
+              {%- for i in (1..5) -%}{% if i <= rating %}★{% else %}☆{% endif %}{%- endfor -%}
+            </span>
+            {%- if block.settings.verified -%}
+              <span class="fam-review__verified">Achat vérifié</span>
+            {%- endif -%}
+          </div>
+
+          {%- if block.settings.review_date != blank -%}
+            <p class="fam-review__date">{{ block.settings.review_date }}</p>
+          {%- endif -%}
+
+          <p class="fam-review__text">{{ block.settings.review_text }}</p>
+
+          {%- if block.settings.helpful_count != blank -%}
+            <p class="fam-review__helpful">{{ block.settings.helpful_count }} personnes ont trouvé cet avis utile</p>
+          {%- endif -%}
+
+          <div class="fam-review__actions">
+            <a href="#" class="fam-review__action">Utile</a>
+            <span class="fam-review__sep">|</span>
+            <a href="#" class="fam-review__action">Signaler</a>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Avis communauté (liste)",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Titre", "default": "L'avis de la communauté" },
+    { "type": "text", "id": "subheading", "label": "Sous-titre", "default": "Découvrez ce que nos clients pensent de nos produits" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Avis",
+      "settings": [
+        { "type": "image_picker", "id": "avatar", "label": "Avatar (vide = initiale)" },
+        { "type": "text", "id": "author_name", "label": "Nom", "default": "Michael R." },
+        { "type": "text", "id": "review_title", "label": "Titre de l'avis", "default": "Exactement ce qu'il me fallait" },
+        { "type": "range", "id": "rating", "label": "Note", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "checkbox", "id": "verified", "label": "Achat vérifié", "default": true },
+        { "type": "text", "id": "review_date", "label": "Ligne date", "default": "Évalué en France le 10 novembre 2025" },
+        { "type": "textarea", "id": "review_text", "label": "Avis", "default": "Ils sont vraiment incroyables. La finition chrome est super solide et la qualité du son est excellente. Le câble tient bien aussi, aucun nœud." },
+        { "type": "text", "id": "helpful_count", "label": "Nombre « utile »", "default": "15" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Avis communauté (liste)",
+      "blocks": [
+        { "type": "review", "settings": { "author_name": "Michael R.", "review_title": "Exactement ce qu'il me fallait", "review_text": "Ils sont vraiment incroyables. La finition chrome est super solide et la qualité du son est excellente. Le câble tient bien aussi, aucun nœud.", "review_date": "Évalué en France le 10 novembre 2025", "helpful_count": "15", "rating": 5, "verified": true } },
+        { "type": "review", "settings": { "author_name": "John D.", "review_title": "Qualité excellente et livraison rapide", "review_text": "La finition chrome a tout de suite attiré mon attention, mais c'est la qualité du son qui m'a convaincu. Audio super clair, aucun délai, et ils paraissent plus chers qu'ils ne le sont. Mes nouveaux écouteurs du quotidien.", "review_date": "Évalué en France le 15 octobre 2025", "helpful_count": "42", "rating": 5, "verified": true } },
+        { "type": "review", "settings": { "author_name": "Sarah M.", "review_title": "Excellent rapport qualité-prix", "review_text": "On me complimente tout le temps dessus — ils ne ressemblent pas aux écouteurs classiques. La connexion est instantanée et le son est équilibré sans fuiter partout. On sent qu'ils sont conçus avec soin.", "review_date": "Évalué en France le 4 février 2026", "helpful_count": "28", "rating": 5, "verified": true } }
+      ]
+    }
+  ]
+}
+{% endschema %}

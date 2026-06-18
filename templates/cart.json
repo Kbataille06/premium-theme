@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "cart-main": {
+      "type": "cart",
+      "settings": {}
+    }
+  },
+  "order": ["cart-main"]
+}

@@ -1,0 +1,80 @@
+<section class="ifl section-padding" style="background-color: {{ section.settings.bg_color }};">
+  <div class="container">
+    <div class="ifl__header">
+      <h2 class="ifl__heading">
+        {{ section.settings.heading }}
+        {%- if section.settings.heading_accent != blank -%}
+          <span class="accent-text">{{ section.settings.heading_accent }}</span>
+        {%- endif -%}
+      </h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="ifl__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="ifl__layout">
+      <div class="ifl__list">
+        {%- for block in section.blocks -%}
+          <div class="ifl__feature" {{ block.shopify_attributes }}>
+            <div class="ifl__feature-head">
+              <span class="ifl__feature-icon">
+                {%- case block.settings.icon -%}
+                  {%- when 'diamond' -%}<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 1L9 9l-8 3 8 3 3 8 3-8 8-3-8-3-3-8z"/></svg>
+                  {%- when 'music' -%}<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor" width="20" height="20"><path d="M285-240v-480h60v480h-60ZM450-80v-800h60v800h-60ZM120-400v-160h60v160h-60Zm495 160v-480h60v480h-60Zm165-160v-160h60v160h-60Z"/></svg>
+                  {%- when 'bolt' -%}<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor" width="20" height="20"><path d="m280-80 160-300-320-40 480-460h80L520-580l320 40L360-80h-80Zm222-247 161-154-269-34 63-117-160 154 268 33-63 118Zm-22-153Z"/></svg>
+                  {%- else -%}<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><polyline points="20 6 9 17 4 12"/></svg>
+                {%- endcase -%}
+              </span>
+              <h3 class="ifl__feature-title">{{ block.settings.title }}</h3>
+            </div>
+            {%- if block.settings.description != blank -%}
+              <p class="ifl__feature-desc">{{ block.settings.description }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="ifl__media">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', class: 'ifl__img', alt: section.settings.heading }}
+        {%- else -%}
+          <div class="ifl__img ifl__img--ph">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Image + liste features",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Titre", "default": "où la mode" },
+    { "type": "text", "id": "heading_accent", "label": "Accent (gris)", "default": "rencontre la fonction" },
+    { "type": "textarea", "id": "subheading", "label": "Sous-titre", "default": "Ces écouteurs chrome allient style saisissant et performance fiable. Un son clair et immersif dans un look impossible à ignorer." },
+    { "type": "image_picker", "id": "image", "label": "Image produit" },
+    { "type": "color", "id": "bg_color", "label": "Fond", "default": "#f6f6f8" }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icône", "options": [ { "value": "diamond", "label": "Diamant" }, { "value": "music", "label": "Musique" }, { "value": "bolt", "label": "Éclair" }, { "value": "check", "label": "Check" } ], "default": "diamond" },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Chrome Premium" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Boîtier métallique poli qui ne fait pas qu'impressionner — il est conçu pour durer." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image + liste features",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "diamond", "title": "Chrome Premium", "description": "Boîtier métallique poli qui ne fait pas qu'impressionner — il est conçu pour durer." } },
+        { "type": "feature", "settings": { "icon": "music", "title": "Audio de Précision", "description": "Aigus nets, médiums riches et basses équilibrées pour une écoute immersive." } },
+        { "type": "feature", "settings": { "icon": "bolt", "title": "Brancher & Écouter", "description": "Pas de charge, pas de synchro. Branchez et profitez instantanément." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,96 @@
+<section class="product-journey section-padding">
+  <div class="container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="section-heading text-center">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="product-journey__steps">
+      {%- for block in section.blocks -%}
+        <div class="product-journey__step" {{ block.shopify_attributes }}>
+          <div class="product-journey__step-media">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'product-journey__step-img', alt: block.settings.title }}
+            {%- else -%}
+              <div class="product-journey__step-placeholder">
+                {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            {%- endif -%}
+          </div>
+          <div class="product-journey__step-body">
+            <h3 class="product-journey__step-title">{{ block.settings.title }}</h3>
+            {%- if block.settings.description != blank -%}
+              <p class="product-journey__step-desc">{{ block.settings.description }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product journey",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Secure Your Pair."
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Choose your chrome earbuds and lock in a sound experience designed to move with you."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product journey",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Secure Your Pair.",
+            "description": "Choose your chrome earbuds and lock in a sound experience designed to move with you."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Unbox The Future.",
+            "description": "Slide open the package and reveal the mirror-chrome finish sleek, bold, and built to stand out."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Plug In. Drift Away.",
+            "description": "Connect instantly and let immersive sound take over. You're gliding through your day powered by pure audio."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

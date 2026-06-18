@@ -1,0 +1,60 @@
+<section class="clist section-padding">
+  <div class="container">
+    {%- if section.settings.heading != blank -%}
+      <div class="clist__header text-center">
+        <h2 class="clist__heading">
+          {{ section.settings.heading }}
+          {%- if section.settings.heading_accent != blank -%}<span class="accent-text">{{ section.settings.heading_accent }}</span>{%- endif -%}
+        </h2>
+        {%- if section.settings.subheading != blank -%}<p class="clist__subheading">{{ section.settings.subheading }}</p>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="clist__grid clist__grid--{{ section.blocks.size }}">
+      {%- for block in section.blocks -%}
+        {%- assign col = collections[block.settings.collection] -%}
+        <a href="{{ col.url | default: block.settings.link }}" class="clist__item" {{ block.shopify_attributes }}>
+          <div class="clist__media">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', class: 'clist__img', alt: block.settings.title }}
+            {%- elsif col.featured_image -%}
+              {{ col.featured_image | image_url: width: 500 | image_tag: loading: 'lazy', class: 'clist__img', alt: col.title }}
+            {%- else -%}
+              <div class="clist__img clist__img--ph">{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+            {%- endif -%}
+          </div>
+          <span class="clist__title">{{ block.settings.title | default: col.title | default: 'Catégorie' }}</span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Liste de collections",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Nos catégories" },
+    { "type": "text", "id": "heading_accent", "label": "Accent" },
+    { "type": "text", "id": "subheading", "label": "Sous-titre" }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Catégorie",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "image_picker", "id": "image", "label": "Image (sinon image collection)" },
+        { "type": "text", "id": "title", "label": "Titre (sinon nom collection)" },
+        { "type": "url", "id": "link", "label": "Lien (si pas de collection)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Liste de collections",
+      "blocks": [ { "type": "category" }, { "type": "category" }, { "type": "category" }, { "type": "category" }, { "type": "category" } ]
+    }
+  ]
+}
+{% endschema %}

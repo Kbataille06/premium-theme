@@ -1,0 +1,111 @@
+<section class="reviews section-padding">
+  <div class="container">
+    <div class="reviews__header text-center">
+      {%- if section.settings.show_aggregate -%}
+        <div class="reviews__pill">
+          <span class="reviews__pill-stars">★★★★★</span>
+          <span class="reviews__pill-text">Noté {{ section.settings.aggregate_score }} sur {{ section.settings.aggregate_count }} avis vérifiés</span>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="reviews__heading">
+          {{ section.settings.heading }}
+          {%- if section.settings.heading_accent != blank -%}
+            <span class="accent-text">{{ section.settings.heading_accent }}</span>
+          {%- endif -%}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="reviews__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="reviews__carousel" data-reviews-carousel>
+      <div class="reviews__track" data-reviews-track>
+        {%- for block in section.blocks -%}
+          <article class="reviews__card" {{ block.shopify_attributes }}>
+            <div class="reviews__card-image">
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', alt: block.settings.author_name }}
+              {%- else -%}
+                <div class="reviews__card-image-ph">{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+              {%- endif -%}
+            </div>
+            <div class="reviews__card-body">
+              <div class="reviews__card-top">
+                <span class="reviews__stars">★★★★★</span>
+                <span class="reviews__author">{{ block.settings.author_name }}</span>
+                {%- if block.settings.verified -%}
+                  <span class="reviews__verified">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#00a4ff" width="13" height="13"><path d="M12 2l2.4 2.4 3.4-.6.6 3.4L21 12l-2.6 2.4.6 3.4-3.4.6L12 22l-2.4-2.6-3.4.6-.6-3.4L3 12l2.6-2.4-.6-3.4 3.4.6z"/><path d="M9.5 12.5l2 2 3.5-4" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Verified Buyer
+                  </span>
+                {%- endif -%}
+              </div>
+              <p class="reviews__text">{{ block.settings.review_text }}</p>
+              <div class="reviews__product-card">
+                {%- if block.settings.product_image != blank -%}
+                  {{ block.settings.product_image | image_url: width: 80 | image_tag: loading: 'lazy', class: 'reviews__product-img', alt: block.settings.product_name }}
+                {%- else -%}
+                  <div class="reviews__product-img reviews__product-img--ph"></div>
+                {%- endif -%}
+                <div class="reviews__product-info">
+                  <span class="reviews__product-name">{{ block.settings.product_name }}</span>
+                  <span class="reviews__product-price">{{ block.settings.product_price }}</span>
+                  <span class="reviews__product-date">🛒 Acheté le {{ block.settings.purchase_date }}</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+
+      <div class="reviews__nav">
+        <button class="reviews__arrow" data-reviews-prev aria-label="Previous">‹</button>
+        <button class="reviews__arrow" data-reviews-next aria-label="Next">›</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer reviews",
+  "settings": [
+    { "type": "checkbox", "id": "show_aggregate", "label": "Show rating pill", "default": true },
+    { "type": "text", "id": "aggregate_score", "label": "Score", "default": "4.83/5" },
+    { "type": "text", "id": "aggregate_count", "label": "Count", "default": "+8839" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Customer" },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent (gris)", "default": "reviews" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "See what our customers are saying about our products" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Customer photo" },
+        { "type": "text", "id": "author_name", "label": "Author (name, country)", "default": "Ethan, USA" },
+        { "type": "checkbox", "id": "verified", "label": "Verified", "default": true },
+        { "type": "textarea", "id": "review_text", "label": "Review text", "default": "I bought the gold chromabuds after wearing the silver. They match more outfits! Quality is fire." },
+        { "type": "image_picker", "id": "product_image", "label": "Product thumbnail" },
+        { "type": "text", "id": "product_name", "label": "Product name", "default": "Chroma Wired Buds" },
+        { "type": "text", "id": "product_price", "label": "Price", "default": "$29.99" },
+        { "type": "text", "id": "purchase_date", "label": "Purchase date", "default": "May 24th, 2026" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer reviews",
+      "blocks": [
+        { "type": "review", "settings": { "author_name": "Ethan, USA", "review_text": "I bought the gold chromabuds after I kept wearing the silver. They match more outfits! Quality is fire and so are these. Can't wait for more!!!", "product_name": "Chroma Wired Buds", "product_price": "$29.99", "purchase_date": "May 24th, 2026" } },
+        { "type": "review", "settings": { "author_name": "Jonas, UK", "review_text": "I love styling my fits with these headphones. They not only look good but sound good as well.", "product_name": "Chroma Wired Buds", "product_price": "€26,95", "purchase_date": "February 24th, 2025" } },
+        { "type": "review", "settings": { "author_name": "Chantelle, Canada", "review_text": "As somebody who loves chrome I can't believe how good the gold earbuds look! Quality is great and they're my new dailys.", "product_name": "Chroma Wired Buds", "product_price": "$29.99", "purchase_date": "May 14th, 2025" } },
+        { "type": "review", "settings": { "author_name": "Ethan, Canada", "review_text": "If you like listening to music while on the hill these chrome headphones are perfect. I get so many people in the lodge asking about em.", "product_name": "Chroma Wired Buds", "product_price": "€26,95", "purchase_date": "March 22nd, 2026" } },
+        { "type": "review", "settings": { "author_name": "Michael, United States", "review_text": "Love jamming out on my iPod with these headphones. Super aesthetic and the sound is pretty good considering it's more of an accessory piece.", "product_name": "Chroma Wired Buds", "product_price": "€26,95", "purchase_date": "February 15th, 2026" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

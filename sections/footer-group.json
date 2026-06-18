@@ -1,0 +1,27 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "Rejoins le mouvement",
+        "subheading": "Abonne-toi pour des réductions exclusives, les nouveaux drops et des conseils pour filmer tes séances.",
+        "placeholder": "Entre ton e-mail",
+        "button_label": "S'INSCRIRE",
+        "show_social": true,
+        "bg_color": "#0e1013"
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "menu": "footer",
+        "tagline": "Le support magnétique pensé pour la salle de sport.",
+        "show_payment_icons": true,
+        "show_country_selector": true
+      }
+    }
+  },
+  "order": ["newsletter", "footer"]
+}

@@ -1,0 +1,134 @@
+{
+  "sections": {
+    "product-main": {
+      "type": "product",
+      "settings": {
+        "show_award_badge": true,
+        "award_title": "BESTSELLER FITNESS",
+        "award_sub": "le support n°1 des salles de sport",
+        "rating_label": "Adoré par 5000+",
+        "review_score": "4,9",
+        "show_tiktok_comment": true,
+        "tiktok_user": "fitwithleo",
+        "tiktok_likes": "12,4K",
+        "tiktok_text": "Le meilleur achat fitness de l'année. Je filme toutes mes séances sans galérer 💪",
+        "tiktok_time": "il y a 2j",
+        "bundle_heading": "Édition Série Noire - Stock limité",
+        "show_dynamic_checkout": true,
+        "show_replica_warning": true,
+        "show_video_carousel": true,
+        "video_heading": "En conditions réelles",
+        "video_badge_icon": "tiktok",
+        "video_badge": "Plus de 40M de vues sur TikTok",
+        "show_inline_faq": true,
+        "inline_desc_label": "Description"
+      },
+      "blocks": {
+        "b1": { "type": "bundle_tier", "settings": { "title": "1 Support", "quantity": 1, "discount_pct": 3, "save_text": "-3%", "subtext": "Vous économisez 3%" } },
+        "b2": { "type": "bundle_tier", "settings": { "title": "2 Supports", "quantity": 2, "discount_pct": 27, "save_text": "-27%", "subtext": "Vous économisez 27%", "badge": "LE PLUS POPULAIRE", "free_gift": "+ PLAQUE ADHÉSIVE OFFERTE", "highlight": true, "preselected": true } },
+        "b3": { "type": "bundle_tier", "settings": { "title": "3 Supports", "quantity": 3, "discount_pct": 35, "save_text": "-35%", "subtext": "Vous économisez 35%", "badge": "MEILLEURE OFFRE", "free_gift": "+ PLAQUE ADHÉSIVE OFFERTE" } },
+        "fq1": { "type": "faq_item", "settings": { "question": "Ça tient vraiment sur les machines ?", "answer": "Oui — l'aimant néodyme industriel adhère instantanément à toute surface métallique et supporte largement le poids d'un smartphone." } },
+        "fq2": { "type": "faq_item", "settings": { "question": "Compatible avec mon téléphone ?", "answer": "Compatible avec tous les smartphones : MagSafe en natif, ou via la plaque métallique adhésive fournie." } },
+        "fq3": { "type": "faq_item", "settings": { "question": "Garantie satisfait ou remboursé 100%", "answer": "Garantie 30 jours satisfait ou remboursé sur toutes les commandes, sans condition." } }
+      },
+      "blocks_order": ["b1", "b2", "b3", "fq1", "fq2", "fq3"]
+    },
+    "marquee": {
+      "type": "marquee-bar",
+      "settings": { "bg_style": "solid", "bg_color": "#07080a", "text_color": "#c2f93a" },
+      "blocks": {
+        "i1": { "type": "item", "settings": { "icon": "✓", "text": "AIMANT INDUSTRIEL" } },
+        "i2": { "type": "item", "settings": { "icon": "✓", "text": "ROTATION 360°" } },
+        "i3": { "type": "item", "settings": { "icon": "✓", "text": "LIVRAISON RAPIDE" } }
+      },
+      "blocks_order": ["i1", "i2", "i3"]
+    },
+    "photo-grid": {
+      "type": "photo-grid",
+      "settings": {
+        "heading": "Adoré par",
+        "heading_accent": "5 000+",
+        "subheading": "Ils filment leurs séances avec GripForce",
+        "badge_text": "Plus de 25M de vues sur TikTok"
+      },
+      "blocks": {
+        "p1": { "type": "photo" }, "p2": { "type": "photo" }, "p3": { "type": "photo" },
+        "p4": { "type": "photo" }, "p5": { "type": "photo" }, "p6": { "type": "photo" }
+      },
+      "blocks_order": ["p1", "p2", "p3", "p4", "p5", "p6"]
+    },
+    "style-chroma": {
+      "type": "lifestyle-grid",
+      "settings": {
+        "heading": "Filme",
+        "heading_accent": "Partout",
+        "subheading": "À la salle, à la maison, en extérieur",
+        "bg_color": "#15181c"
+      },
+      "blocks": {
+        "c1": { "type": "card", "settings": { "title": "À la salle", "description": "Accroche-le à n'importe quelle machine et filme tes séries sans déranger." } },
+        "c2": { "type": "card", "settings": { "title": "À la maison", "description": "Sur le frigo, une étagère métallique ou le rack : ton home gym devient un studio." } },
+        "c3": { "type": "card", "settings": { "title": "Au bureau", "description": "Visio mains libres : colle-le à toute surface métallique de ton espace." } },
+        "c4": { "type": "card", "settings": { "title": "En déplacement", "description": "Compact et léger, il se glisse dans ton sac de sport partout." } }
+      },
+      "blocks_order": ["c1", "c2", "c3", "c4"]
+    },
+    "iwt-1": {
+      "type": "image-with-text",
+      "settings": {
+        "layout": "text-right",
+        "heading": "Aimant Industriel. Maintien Béton.",
+        "text": "Conçu avec un aimant néodyme haute puissance qui ne fait pas que tenir — il verrouille ton téléphone même sous les vibrations les plus intenses. Accroche, filme, oublie."
+      }
+    },
+    "benefits": {
+      "type": "feature-grid",
+      "settings": { "heading": "Ce que vous pouvez", "heading_accent": "attendre", "bg_color": "#15181c" },
+      "blocks": {
+        "f1": { "type": "benefit", "settings": { "icon": "bolt", "title": "Pose Instantanée", "description": "Aucune fixation. Pose et c'est verrouillé." } },
+        "f2": { "type": "benefit", "settings": { "icon": "shield", "title": "Aimant Industriel", "description": "Néodyme haute puissance, maintien béton." } },
+        "f3": { "type": "benefit", "settings": { "icon": "refresh", "title": "Rotation 360°", "description": "Cadre vertical ou horizontal en un geste." } },
+        "f4": { "type": "benefit", "settings": { "icon": "check", "title": "Compact & Léger", "description": "Se glisse partout dans ton sac de sport." } }
+      },
+      "blocks_order": ["f1", "f2", "f3", "f4"]
+    },
+    "iwt-2": {
+      "type": "image-with-text",
+      "settings": {
+        "layout": "text-left",
+        "heading": "Compatible Avec Tous Les Téléphones.",
+        "text": "MagSafe en natif, ou via la plaque métallique adhésive fournie pour tous les autres modèles. Un seul support, tous tes appareils."
+      }
+    },
+    "reviews": {
+      "type": "testimonials",
+      "settings": {
+        "show_aggregate": true,
+        "aggregate_score": "4,9/5",
+        "aggregate_count": "+5 200",
+        "heading": "Avis",
+        "heading_accent": "clients",
+        "subheading": "Découvrez ce que les sportifs pensent de GripForce"
+      },
+      "blocks": {
+        "r1": { "type": "review", "settings": { "author_name": "Maxime, France", "review_text": "Je filme toutes mes séances sans galérer. L'aimant tient sur tout, même la cage à squat. Indispensable.", "product_name": "Support Magnétique Pro", "product_price": "29,99 €", "purchase_date": "12 mars 2026" } },
+        "r2": { "type": "review", "settings": { "author_name": "Sarah, Belgique", "review_text": "Ultra solide, mon téléphone ne bouge pas d'un poil. Je recommande à toute la salle.", "product_name": "Support Magnétique Pro", "product_price": "29,99 €", "purchase_date": "28 février 2026" } },
+        "r3": { "type": "review", "settings": { "author_name": "Yanis, France", "review_text": "Compact, puissant, je l'emporte partout. Fini de poser le tel par terre.", "product_name": "Support Magnétique Pro", "product_price": "29,99 €", "purchase_date": "5 février 2026" } },
+        "r4": { "type": "review", "settings": { "author_name": "Léa, Suisse", "review_text": "Parfait pour suivre ma progression. Le cadrage 360° change tout pour filmer les squats.", "product_name": "Support Magnétique Pro", "product_price": "29,99 €", "purchase_date": "20 janvier 2026" } }
+      },
+      "blocks_order": ["r1", "r2", "r3", "r4"]
+    },
+    "faq": {
+      "type": "faq",
+      "settings": { "heading": "Questions fréquentes" },
+      "blocks": {
+        "q1": { "type": "question", "settings": { "question": "Ça tient sur toutes les surfaces ?", "answer": "Sur toutes les surfaces métalliques. Une plaque adhésive est incluse pour les autres surfaces." } },
+        "q2": { "type": "question", "settings": { "question": "Mon téléphone risque-t-il de tomber ?", "answer": "Non — l'aimant néodyme supporte largement le poids d'un smartphone avec coque." } },
+        "q3": { "type": "question", "settings": { "question": "Compatible avec mon modèle ?", "answer": "Oui, compatible avec tous les smartphones (MagSafe ou plaque fournie)." } },
+        "q4": { "type": "question", "settings": { "question": "Garantie satisfait ou remboursé 30 jours", "answer": "Garantie 30 jours sur toutes les commandes." } }
+      },
+      "blocks_order": ["q1", "q2", "q3", "q4"]
+    }
+  },
+  "order": ["product-main", "marquee", "photo-grid", "style-chroma", "iwt-1", "benefits", "iwt-2", "reviews", "faq"]
+}

@@ -1,0 +1,65 @@
+{%- if section.settings.bg_style == 'gradient' -%}
+  {%- assign bar_bg = 'background: linear-gradient(85deg, ' | append: section.settings.gradient_start | append: ' 2%, ' | append: section.settings.gradient_end | append: ' 98%);' -%}
+{%- else -%}
+  {%- assign bar_bg = 'background-color: ' | append: section.settings.bg_color | append: ';' -%}
+{%- endif -%}
+
+<div class="marquee-bar" style="{{ bar_bg }} color: {{ section.settings.text_color }};" data-marquee>
+  <div class="marquee-bar__track" data-marquee-track>
+    <div class="marquee-bar__group" data-marquee-group>
+      {%- for block in section.blocks -%}
+        <span class="marquee-bar__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.icon != blank -%}
+            <span class="marquee-bar__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5L16 9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          {%- endif -%}
+          {{ block.settings.text }}
+        </span>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Marquee bar",
+  "settings": [
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Type de fond",
+      "options": [
+        { "value": "solid", "label": "Couleur unie" },
+        { "value": "gradient", "label": "Dégradé (blanc → gris)" }
+      ],
+      "default": "solid"
+    },
+    { "type": "color", "id": "bg_color", "label": "Couleur de fond (uni)", "default": "#0a0a0a" },
+    { "type": "color", "id": "gradient_start", "label": "Dégradé : début", "default": "#ffffff" },
+    { "type": "color", "id": "gradient_end", "label": "Dégradé : fin", "default": "#5f6264" },
+    { "type": "color", "id": "text_color", "label": "Couleur du texte", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icône (laisser une valeur = check)", "default": "✓" },
+        { "type": "text", "id": "text", "label": "Texte", "default": "PREMIUM QUALITY" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee bar",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "✓", "text": "PREMIUM QUALITY" } },
+        { "type": "item", "settings": { "icon": "✓", "text": "FAST SHIPPING" } },
+        { "type": "item", "settings": { "icon": "✓", "text": "SATISFACTION GUARANTEED" } },
+        { "type": "item", "settings": { "icon": "✓", "text": "30-DAY MONEY BACK" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

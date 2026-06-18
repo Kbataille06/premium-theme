@@ -1,0 +1,51 @@
+<section class="logolist section-padding-sm">
+  <div class="container">
+    {%- if section.settings.heading != blank -%}
+      <p class="logolist__heading text-center">{{ section.settings.heading }}</p>
+    {%- endif -%}
+    <div class="logolist__items{% if section.settings.scroll %} logolist__items--scroll{% endif %}"{% if section.settings.scroll %} data-marquee{% endif %}>
+      <div class="logolist__track"{% if section.settings.scroll %} data-marquee-track{% endif %}>
+        <div class="logolist__group"{% if section.settings.scroll %} data-marquee-group{% endif %}>
+          {%- for block in section.blocks -%}
+            <div class="logolist__item" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}" target="_blank" rel="noopener">{%- endif -%}
+                {{ block.settings.image | image_url: width: 240 | image_tag: loading: 'lazy', class: 'logolist__img', alt: block.settings.alt }}
+                {%- if block.settings.link != blank -%}</a>{%- endif -%}
+              {%- else -%}
+                <span class="logolist__placeholder">{{ block.settings.alt | default: 'LOGO' }}</span>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Logos / Presse",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Ils parlent de nous" },
+    { "type": "checkbox", "id": "scroll", "label": "Défilement auto", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Logo" },
+        { "type": "text", "id": "alt", "label": "Nom" },
+        { "type": "url", "id": "link", "label": "Lien" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logos / Presse",
+      "blocks": [ { "type": "logo" }, { "type": "logo" }, { "type": "logo" }, { "type": "logo" }, { "type": "logo" }, { "type": "logo" } ]
+    }
+  ]
+}
+{% endschema %}

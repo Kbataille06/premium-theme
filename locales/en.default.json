@@ -1,0 +1,42 @@
+{
+  "accessibility": {
+    "skip_to_text": "Aller au contenu",
+    "open_cart": "Ouvrir le panier",
+    "close": "Fermer",
+    "open_menu": "Ouvrir le menu"
+  },
+  "general": {
+    "currency": {
+      "go_to_store": "Aller à la boutique",
+      "select_country": "Choisir un pays/région"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "AJOUTER AU PANIER",
+      "sold_out": "ÉPUISÉ",
+      "unavailable": "INDISPONIBLE",
+      "quantity": {
+        "label": "Quantité",
+        "increase": "Augmenter la quantité",
+        "decrease": "Diminuer la quantité"
+      }
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Votre panier",
+      "empty": "Votre panier est vide",
+      "close_cart": "Fermer le panier",
+      "subtotal": "Sous-total"
+    }
+  },
+  "sections": {
+    "header": {
+      "menu": "Menu"
+    },
+    "footer": {
+      "copyright": "&copy; {{ year }} {{ shop_name }}"
+    }
+  }
+}

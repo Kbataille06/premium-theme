@@ -1,0 +1,26 @@
+<style>
+  :root {
+    --color-background: {{ settings.color_background }};
+    --color-foreground: {{ settings.color_foreground }};
+    --color-accent: {{ settings.color_accent }};
+    --color-button-bg: {{ settings.color_button_bg }};
+    --color-button-text: {{ settings.color_button_text }};
+    --color-border: {{ settings.color_border }};
+    --color-footer-bg: {{ settings.color_footer_bg }};
+    --color-footer-text: {{ settings.color_footer_text }};
+
+    --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-body-style: {{ settings.type_body_font.style }};
+    --font-body-weight: {{ settings.type_body_font.weight }};
+
+    --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+    --font-heading-style: {{ settings.type_header_font.style }};
+    --font-heading-weight: {{ settings.type_header_font.weight }};
+
+    --font-body-size: {{ settings.type_base_size }}px;
+    --button-border-radius: {{ settings.button_border_radius }}px;
+    --page-width: 1280px;
+    --section-padding: 80px;
+    --grid-gap: 24px;
+  }
+</style>

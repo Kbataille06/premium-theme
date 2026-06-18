@@ -1,0 +1,10 @@
+require:
+  - theme-check-shopify
+
+check:
+  MissingTemplate:
+    enabled: true
+  UnusedAssign:
+    enabled: false
+  LiquidTag:
+    enabled: true

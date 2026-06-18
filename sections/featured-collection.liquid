@@ -1,0 +1,59 @@
+{%- assign collection = collections[section.settings.collection] -%}
+<section class="fcollection section-padding">
+  <div class="container">
+    {%- if section.settings.heading != blank -%}
+      <div class="fcollection__header text-center">
+        <h2 class="fcollection__heading">
+          {{ section.settings.heading }}
+          {%- if section.settings.heading_accent != blank -%}<span class="accent-text">{{ section.settings.heading_accent }}</span>{%- endif -%}
+        </h2>
+        {%- if section.settings.subheading != blank -%}<p class="fcollection__subheading">{{ section.settings.subheading }}</p>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="fcollection__grid fcollection__grid--{{ section.settings.columns }}">
+      {%- for product in collection.products limit: section.settings.limit -%}
+        <a href="{{ product.url }}" class="pcard">
+          <div class="pcard__media">
+            {%- if product.featured_image -%}
+              {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'pcard__img', alt: product.title }}
+              {%- if product.images[1] -%}{{ product.images[1] | image_url: width: 600 | image_tag: loading: 'lazy', class: 'pcard__img pcard__img--hover', alt: product.title }}{%- endif -%}
+            {%- else -%}
+              <div class="pcard__img pcard__img--ph">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+            {%- endif -%}
+            {%- if product.compare_at_price > product.price -%}
+              {%- assign pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+              <span class="pcard__badge">-{{ pct }}%</span>
+            {%- endif -%}
+          </div>
+          <div class="pcard__info">
+            <h3 class="pcard__title">{{ product.title }}</h3>
+            <div class="pcard__price">
+              {%- if product.compare_at_price > product.price -%}<s>{{ product.compare_at_price | money }}</s>{%- endif -%}
+              <span>{{ product.price | money }}</span>
+            </div>
+          </div>
+        </a>
+      {%- else -%}
+        {%- for i in (1..4) -%}
+          <div class="pcard"><div class="pcard__media"><div class="pcard__img pcard__img--ph">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div></div><div class="pcard__info"><h3 class="pcard__title">Produit exemple</h3><div class="pcard__price"><span>{{ 1000 | money }}</span></div></div></div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection en avant",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Notre sélection" },
+    { "type": "text", "id": "heading_accent", "label": "Accent" },
+    { "type": "text", "id": "subheading", "label": "Sous-titre" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "select", "id": "columns", "label": "Colonnes", "options": [ { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" } ], "default": "3" },
+    { "type": "range", "id": "limit", "label": "Nombre de produits", "min": 2, "max": 12, "step": 1, "default": 6 }
+  ],
+  "presets": [ { "name": "Collection en avant" } ]
+}
+{% endschema %}

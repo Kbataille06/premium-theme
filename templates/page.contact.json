@@ -1,0 +1,75 @@
+{
+  "sections": {
+    "marquee-grey": {
+      "type": "marquee-bar",
+      "settings": {
+        "bg_style": "gradient",
+        "gradient_start": "#23272e",
+        "gradient_end": "#0e1013",
+        "text_color": "#c2f93a"
+      },
+      "blocks": {
+        "m1": { "type": "item", "settings": { "icon": "✓", "text": "AIMANT INDUSTRIEL" } },
+        "m2": { "type": "item", "settings": { "icon": "✓", "text": "ROTATION 360°" } },
+        "m3": { "type": "item", "settings": { "icon": "✓", "text": "LIVRAISON RAPIDE" } }
+      },
+      "blocks_order": ["m1", "m2", "m3"]
+    },
+    "contact-main": {
+      "type": "contact-wholesale",
+      "settings": {
+        "heading": "Demande Wholesale / Pro !",
+        "intro": "Salle de sport, coach, revendeur ? Équipez vos membres avec le support GripForce. Disponible pour les achats en gros à partir de 100 unités.",
+        "include_label": "À inclure dans le formulaire :",
+        "form_heading": "Formulaire de contact",
+        "ph_name": "Nom",
+        "ph_email": "E-mail",
+        "ph_phone": "Numéro de téléphone",
+        "ph_comment": "Commentaire",
+        "button_label": "Envoyer",
+        "success_text": "Merci ! Votre message a bien été envoyé."
+      },
+      "blocks": {
+        "h1": { "type": "hint", "settings": { "label": "Nombre d'unités", "text": "Combien de supports souhaitez-vous commander ?" } },
+        "h2": { "type": "hint", "settings": { "label": "Date de livraison", "text": "Pour quand avez-vous besoin de votre commande ?" } },
+        "h3": { "type": "hint", "settings": { "label": "Pays", "text": "Depuis quel pays commandez-vous ?" } }
+      },
+      "blocks_order": ["h1", "h2", "h3"]
+    },
+    "what-everyone": {
+      "type": "what-everyone",
+      "settings": {
+        "heading": "ce que tout le monde",
+        "heading_accent": "en dit...",
+        "show_summary": true,
+        "summary_label": "Très bien",
+        "summary_score": "4,9/5",
+        "summary_count": "sur 5 200 avis vérifiés",
+        "verified_label": "Client vérifié"
+      },
+      "blocks": {
+        "r1": { "type": "review", "settings": { "title": "Indispensable à la salle", "text": "Je filme toutes mes séries sans déranger personne. L'aimant tient sur tout, c'est bluffant.", "author_name": "Maxime D." } },
+        "r2": { "type": "review", "settings": { "title": "Maintien béton", "text": "Mon téléphone ne bouge pas même avec les vibrations des machines à côté. Top qualité.", "author_name": "Sarah L." } },
+        "r3": { "type": "review", "settings": { "title": "Compact et puissant", "text": "Je l'emporte partout dans mon sac. Fini de poser le tel par terre pour filmer.", "author_name": "Yanis B." } },
+        "r4": { "type": "review", "settings": { "title": "Parfait pour la progression", "text": "Le cadrage 360° change tout pour filmer mes squats et corriger ma forme.", "author_name": "Léa R." } }
+      },
+      "blocks_order": ["r1", "r2", "r3", "r4"]
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {
+        "heading": "Questions fréquentes",
+        "subheading": "Trouvez les réponses aux questions courantes sur le produit, la livraison et les retours."
+      },
+      "blocks": {
+        "q1": { "type": "question", "settings": { "question": "Ça tient sur toutes les surfaces ?", "answer": "Sur toutes les surfaces métalliques. Une plaque adhésive est incluse pour les autres surfaces." } },
+        "q2": { "type": "question", "settings": { "question": "Mon téléphone risque-t-il de tomber ?", "answer": "Non — l'aimant néodyme supporte largement le poids d'un smartphone avec coque." } },
+        "q3": { "type": "question", "settings": { "question": "Compatible avec mon modèle ?", "answer": "Oui, compatible avec tous les smartphones (MagSafe ou plaque fournie)." } },
+        "q4": { "type": "question", "settings": { "question": "Quelle est la politique de retour ?", "answer": "Garantie satisfait ou remboursé de 30 jours sur toutes les commandes." } },
+        "q5": { "type": "question", "settings": { "question": "Quel délai de livraison ?", "answer": "Expédition sous 24-48h, livraison généralement sous 3 à 5 jours ouvrés." } }
+      },
+      "blocks_order": ["q1", "q2", "q3", "q4", "q5"]
+    }
+  },
+  "order": ["marquee-grey", "contact-main", "what-everyone", "faq"]
+}

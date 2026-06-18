@@ -1,0 +1,71 @@
+{%- assign collection = collections[section.settings.collection] -%}
+<section class="pcarousel section-padding">
+  <div class="container">
+    <div class="pcarousel__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="pcarousel__heading">
+          {{ section.settings.heading }}
+          {%- if section.settings.heading_accent != blank -%}<span class="accent-text">{{ section.settings.heading_accent }}</span>{%- endif -%}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.link_label != blank -%}
+        <a href="{{ collection.url | default: section.settings.link_url }}" class="pcarousel__viewall">{{ section.settings.link_label }}</a>
+      {%- endif -%}
+    </div>
+
+    <div class="pcarousel__wrap" data-reviews-carousel>
+      <div class="pcarousel__track" data-reviews-track>
+        {%- assign products = collection.products | default: section.settings.product_list -%}
+        {%- for product in products limit: section.settings.limit -%}
+          <a href="{{ product.url }}" class="pcard">
+            <div class="pcard__media">
+              {%- if product.featured_image -%}
+                {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'pcard__img', alt: product.title }}
+                {%- if product.images[1] -%}{{ product.images[1] | image_url: width: 600 | image_tag: loading: 'lazy', class: 'pcard__img pcard__img--hover', alt: product.title }}{%- endif -%}
+              {%- else -%}
+                <div class="pcard__img pcard__img--ph">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+              {%- endif -%}
+              {%- if product.compare_at_price > product.price -%}
+                {%- assign pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+                <span class="pcard__badge">-{{ pct }}%</span>
+              {%- endif -%}
+            </div>
+            <div class="pcard__info">
+              <h3 class="pcard__title">{{ product.title }}</h3>
+              <div class="pcard__price">
+                {%- if product.compare_at_price > product.price -%}<s>{{ product.compare_at_price | money }}</s>{%- endif -%}
+                <span>{{ product.price | money }}</span>
+              </div>
+            </div>
+          </a>
+        {%- else -%}
+          {%- for i in (1..4) -%}
+            <div class="pcard">
+              <div class="pcard__media"><div class="pcard__img pcard__img--ph">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div></div>
+              <div class="pcard__info"><h3 class="pcard__title">Produit exemple</h3><div class="pcard__price"><span>{{ 1000 | money }}</span></div></div>
+            </div>
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+      <div class="pcarousel__nav">
+        <button class="pcarousel__arrow" data-reviews-prev aria-label="Précédent">‹</button>
+        <button class="pcarousel__arrow" data-reviews-next aria-label="Suivant">›</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Carousel produits",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Nos best-sellers" },
+    { "type": "text", "id": "heading_accent", "label": "Accent" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "limit", "label": "Nombre de produits", "min": 4, "max": 16, "step": 1, "default": 8 },
+    { "type": "text", "id": "link_label", "label": "Lien (ex: Tout voir)", "default": "Tout voir" },
+    { "type": "url", "id": "link_url", "label": "URL du lien" }
+  ],
+  "presets": [ { "name": "Carousel produits" } ]
+}
+{% endschema %}

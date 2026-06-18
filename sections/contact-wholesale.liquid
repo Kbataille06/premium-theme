@@ -1,0 +1,93 @@
+<section class="wholesale section-padding">
+  <div class="wholesale__inner">
+
+    {%- if section.settings.heading != blank -%}
+      <h1 class="wholesale__heading">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+
+    {%- if section.settings.intro != blank -%}
+      <p class="wholesale__intro">{{ section.settings.intro }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.include_label != blank -%}
+      <p class="wholesale__include">{{ section.settings.include_label }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="wholesale__hints">
+        {%- for block in section.blocks -%}
+          <p class="wholesale__hint" {{ block.shopify_attributes }}>
+            <strong>{{ block.settings.label }}</strong>{% if block.settings.text != blank %} — {{ block.settings.text }}{% endif %}
+          </p>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="wholesale__form-wrap">
+      {%- if section.settings.form_heading != blank -%}
+        <p class="wholesale__form-heading">{{ section.settings.form_heading }}</p>
+      {%- endif -%}
+
+      {% form 'contact', class: 'wholesale__form' %}
+        {%- if form.posted_successfully? -%}
+          <p class="wholesale__success">{{ section.settings.success_text }}</p>
+        {%- endif -%}
+
+        {%- if form.errors -%}
+          <p class="wholesale__error">{{ form.errors | default_errors }}</p>
+        {%- endif -%}
+
+        <div class="wholesale__row">
+          <input class="wholesale__field" type="text" name="contact[name]" placeholder="{{ section.settings.ph_name }}" value="{% if form.name %}{{ form.name }}{% endif %}">
+          <input class="wholesale__field" type="email" name="contact[email]" placeholder="{{ section.settings.ph_email }}" value="{% if form.email %}{{ form.email }}{% endif %}" required>
+        </div>
+
+        <input class="wholesale__field" type="tel" name="contact[Phone number]" placeholder="{{ section.settings.ph_phone }}">
+
+        <textarea class="wholesale__field wholesale__textarea" name="contact[body]" placeholder="{{ section.settings.ph_comment }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+
+        <button type="submit" class="wholesale__send">{{ section.settings.button_label }}</button>
+      {% endform %}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact / Wholesale",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Demande Wholesale !" },
+    { "type": "textarea", "id": "intro", "label": "Introduction", "default": "Devenez partenaire de Chroma pour offrir à vos clients un audio premium — nos écouteurs sont disponibles pour les acheteurs en gros à partir de 150 unités." },
+    { "type": "text", "id": "include_label", "label": "Libellé liste", "default": "À inclure dans le formulaire :" },
+    { "type": "header", "content": "Formulaire" },
+    { "type": "text", "id": "form_heading", "label": "Titre formulaire", "default": "Formulaire de contact" },
+    { "type": "text", "id": "ph_name", "label": "Placeholder nom", "default": "Nom" },
+    { "type": "text", "id": "ph_email", "label": "Placeholder email", "default": "E-mail" },
+    { "type": "text", "id": "ph_phone", "label": "Placeholder téléphone", "default": "Numéro de téléphone" },
+    { "type": "text", "id": "ph_comment", "label": "Placeholder commentaire", "default": "Commentaire" },
+    { "type": "text", "id": "button_label", "label": "Texte bouton", "default": "Envoyer" },
+    { "type": "text", "id": "success_text", "label": "Message de succès", "default": "Merci ! Votre message a bien été envoyé." }
+  ],
+  "blocks": [
+    {
+      "type": "hint",
+      "name": "Ligne d'info",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Libellé (gras)", "default": "Nombre d'unités" },
+        { "type": "text", "id": "text", "label": "Texte", "default": "Combien d'écouteurs souhaitez-vous commander ?" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact / Wholesale",
+      "blocks": [
+        { "type": "hint", "settings": { "label": "Nombre d'unités", "text": "Combien d'écouteurs souhaitez-vous commander ?" } },
+        { "type": "hint", "settings": { "label": "Date de livraison", "text": "Pour quand avez-vous besoin de votre commande ?" } },
+        { "type": "hint", "settings": { "label": "Pays", "text": "Depuis quel pays commandez-vous ?" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

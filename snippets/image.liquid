@@ -1,0 +1,29 @@
+{%- comment -%}
+  Usage: {% render 'image', image: image, widths: '360,720,1080', sizes: '100vw', class: 'my-class', alt: 'Alt text' %}
+{%- endcomment -%}
+
+{%- liquid
+  assign widths = widths | default: '360,540,720,900,1080,1296,1512,1728,1944,2160'
+  assign sizes = sizes | default: '100vw'
+  assign loading = loading | default: 'lazy'
+  assign fetchpriority = fetchpriority | default: 'auto'
+  assign alt = alt | default: image.alt | escape
+-%}
+
+{%- if image != blank -%}
+  {{
+    image
+    | image_url: width: 1500
+    | image_tag:
+      loading: loading,
+      fetchpriority: fetchpriority,
+      widths: widths,
+      sizes: sizes,
+      class: class,
+      alt: alt
+  }}
+{%- else -%}
+  <div class="placeholder-image {{ class }}">
+    {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+  </div>
+{%- endif -%}

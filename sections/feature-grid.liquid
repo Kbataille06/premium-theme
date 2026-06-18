@@ -1,0 +1,84 @@
+<section class="benefits section-padding-sm" style="background-color: {{ section.settings.bg_color }};">
+  <div class="container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="benefits__heading text-center">
+        {{ section.settings.heading }}
+        {%- if section.settings.heading_accent != blank -%}
+          <span class="accent-text">{{ section.settings.heading_accent }}</span>
+        {%- endif -%}
+      </h2>
+    {%- endif -%}
+
+    <div class="benefits__items">
+      {%- for block in section.blocks -%}
+        <div class="benefits__item" {{ block.shopify_attributes }}>
+          <div class="benefits__icon">
+            {%- case block.settings.icon -%}
+              {%- when 'bolt' -%}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M11 21h-1l1-7H7.5c-.58 0-.57-.32-.38-.66.19-.34.05-.08.07-.12C8.48 10.94 10.42 7.54 13 3h1l-1 7h3.5c.49 0 .56.33.47.51l-.07.15C12.96 17.55 11 21 11 21z"/></svg>
+              {%- when 'shield' -%}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.5C15.4,11.5 16,12.4 16,13V16C16,17.4 15.4,18 14.8,18H9.2C8.6,18 8,17.4 8,16V13C8,12.4 8.6,11.5 9.2,11.5V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.5,8.7 10.5,10V11.5H13.5V10C13.5,8.7 12.8,8.2 12,8.2Z"/></svg>
+              {%- when 'refresh' -%}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg>
+              {%- when 'check' -%}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+              {%- when 'music' -%}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+              {%- else -%}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            {%- endcase -%}
+          </div>
+          <h3 class="benefits__title">{{ block.settings.title }}</h3>
+          {%- if block.settings.description != blank -%}
+            <p class="benefits__desc">{{ block.settings.description }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Benefits",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "you can expect" },
+    { "type": "text", "id": "heading_accent", "label": "Accent (gray)", "default": "the following" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#e8e8e8" }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "bolt", "label": "Bolt" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "refresh", "label": "Refresh" },
+            { "value": "check", "label": "Check" },
+            { "value": "music", "label": "Music" }
+          ],
+          "default": "check"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Precision Audio" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Crisp highs, rich mids, and balanced bass." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Benefits",
+      "blocks": [
+        { "type": "benefit", "settings": { "icon": "bolt", "title": "Instant Connection", "description": "No charging. No syncing. Just plug in." } },
+        { "type": "benefit", "settings": { "icon": "shield", "title": "Premium Chrome", "description": "Polished mirror-chrome housing built to last." } },
+        { "type": "benefit", "settings": { "icon": "refresh", "title": "Everyday Durable", "description": "Tangle-resistant cable for daily movement." } },
+        { "type": "benefit", "settings": { "icon": "check", "title": "Precision Audio", "description": "Crisp highs, rich mids, balanced bass." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

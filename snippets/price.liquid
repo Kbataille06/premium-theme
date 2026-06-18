@@ -1,0 +1,23 @@
+{%- liquid
+  assign target = target | default: product
+  assign compare_at = target.compare_at_price
+  assign price = target.price
+  assign available = target.available
+-%}
+
+<div class="price{% if compare_at > price %} price--on-sale{% endif %}">
+  {%- if compare_at > price -%}
+    <span class="price__compare">{{ compare_at | money }}</span>
+  {%- endif -%}
+  <span class="price__current">
+    {%- if available -%}
+      {{ price | money }}
+    {%- else -%}
+      {{ 'products.product.sold_out' | t }}
+    {%- endif -%}
+  </span>
+  {%- if compare_at > price -%}
+    {%- assign savings = compare_at | minus: price | times: 100 | divided_by: compare_at -%}
+    <span class="price__badge">-{{ savings }}%</span>
+  {%- endif -%}
+</div>

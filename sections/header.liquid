@@ -1,0 +1,97 @@
+<header class="header" id="shopify-section-header">
+  <div class="header__inner">
+
+    <button class="header__hamburger mobile-only" aria-label="{{ 'accessibility.open_menu' | t }}" aria-expanded="false" aria-controls="mobile-nav">
+      {% render 'icon-hamburger' %}
+    </button>
+
+    <div class="header__left">
+      <a class="header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        {%- if section.settings.logo != blank -%}
+          {{
+            section.settings.logo
+            | image_url: width: section.settings.logo_width
+            | image_tag:
+              width: section.settings.logo_width,
+              alt: shop.name,
+              loading: 'eager',
+              fetchpriority: 'high'
+          }}
+        {%- else -%}
+          <span class="header__shop-name">{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+
+      <nav class="header__nav desktop-only" aria-label="Main navigation">
+        <ul class="header__nav-list">
+          {%- for link in linklists[section.settings.menu].links -%}
+            <li class="header__nav-item">
+              <a class="header__nav-link{% if link.active %} header__nav-link--active{% endif %}" href="{{ link.url }}">
+                {{ link.title }}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    </div>
+
+    <div class="header__actions">
+      {%- if section.settings.show_country_selector and localization.available_countries.size > 1 -%}
+        <div class="header__country">
+          {% form 'localization' %}
+            <select name="country_code" class="header__country-select" onchange="this.form.submit()" aria-label="{{ 'general.currency.select_country' | t }}">
+              {%- for country in localization.available_countries -%}
+                <option value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>
+                  {{ country.name }} | {{ country.currency.iso_code }} {{ country.currency.symbol }}
+                </option>
+              {%- endfor -%}
+            </select>
+            <span class="header__country-chevron" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          {% endform %}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_account -%}
+        <a class="header__icon-btn" href="{{ routes.account_url }}" aria-label="Compte">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5" stroke-linecap="round"/></svg>
+        </a>
+      {%- endif -%}
+
+      <a class="header__icon-btn header__cart-btn" href="{{ routes.cart_url }}" aria-label="{{ 'accessibility.open_cart' | t }}">
+        {% render 'icon-cart' %}
+        <span class="header__cart-count{% if cart.item_count == 0 %} hidden{% endif %}">{{ cart.item_count }}</span>
+      </a>
+    </div>
+
+  </div>
+</header>
+
+<nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
+  <div class="mobile-nav__inner">
+    <button class="mobile-nav__close" aria-label="{{ 'accessibility.close' | t }}">
+      {% render 'icon-close' %}
+    </button>
+    <ul class="mobile-nav__list">
+      {%- for link in linklists[section.settings.menu].links -%}
+        <li><a class="mobile-nav__link" href="{{ link.url }}">{{ link.title }}</a></li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</nav>
+<div class="mobile-nav__overlay" aria-hidden="true"></div>
+
+{% schema %}
+{
+  "name": "Header",
+  "limit": 1,
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo image" },
+    { "type": "range", "id": "logo_width", "min": 60, "max": 300, "step": 10, "unit": "px", "label": "Logo width", "default": 160 },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "checkbox", "id": "show_account", "label": "Afficher l'icône compte", "default": true },
+    { "type": "checkbox", "id": "show_country_selector", "label": "Afficher le sélecteur pays/devise", "default": true }
+  ]
+}
+{% endschema %}

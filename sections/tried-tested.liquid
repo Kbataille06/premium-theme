@@ -1,0 +1,57 @@
+<section class="tried section-padding">
+  <div class="container">
+    <div class="tried__layout">
+      <div class="tried__content">
+        <h2 class="tried__heading">{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}
+          <p class="tried__subheading">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_url }}" class="btn tried__btn">{{ section.settings.button_label }}</a>
+        {%- endif -%}
+        {%- if section.settings.rating_text != blank -%}
+          <div class="tried__rating">
+            <span class="tried__stars">★★★★★</span>
+            <span class="tried__rating-text">{{ section.settings.rating_text }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="tried__carousel" data-tried-carousel>
+        <div class="tried__track" data-tried-track>
+          {%- for block in section.blocks -%}
+            <div class="tried__item" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', class: 'tried__img', alt: 'Client Chroma' }}
+              {%- else -%}
+                <div class="tried__img tried__img--ph">{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Tried Tested Approved",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Testé, Approuvé, Adopté" },
+    { "type": "text", "id": "subheading", "label": "Sous-titre", "default": "Découvrez comment nos clients portent Chroma" },
+    { "type": "text", "id": "button_label", "label": "Texte du bouton", "default": "Profiter de l'offre - 54%" },
+    { "type": "url", "id": "button_url", "label": "Lien du bouton" },
+    { "type": "text", "id": "rating_text", "label": "Texte note", "default": "Noté 4,9/5 par 8 000+ clients satisfaits" }
+  ],
+  "blocks": [
+    { "type": "photo", "name": "Photo", "settings": [ { "type": "image_picker", "id": "image", "label": "Image" } ] }
+  ],
+  "presets": [
+    {
+      "name": "Tried Tested Approved",
+      "blocks": [ { "type": "photo" }, { "type": "photo" }, { "type": "photo" }, { "type": "photo" } ]
+    }
+  ]
+}
+{% endschema %}

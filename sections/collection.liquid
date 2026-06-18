@@ -1,0 +1,86 @@
+<section class="collection-page section-padding">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="breadcrumb">
+      <a href="{{ routes.root_url }}" class="breadcrumb__link">Accueil</a>
+      <span class="breadcrumb__sep">/</span>
+      <span class="breadcrumb__current">{{ collection.title }}</span>
+    </nav>
+
+    <div class="collection-page__header">
+      <h1 class="collection-page__title">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="collection-page__desc rte">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="collection-page__toolbar">
+      <span class="collection-page__count">{{ collection.products_count }} produits</span>
+      {% form 'localization', class: 'hidden' %}{% endform %}
+      <form method="get" class="collection-page__sort">
+        <label for="sort">Trier :</label>
+        <select id="sort" name="sort_by" onchange="this.form.submit()">
+          {%- assign sort = collection.sort_by | default: collection.default_sort_by -%}
+          <option value="manual"{% if sort == 'manual' %} selected{% endif %}>En vedette</option>
+          <option value="best-selling"{% if sort == 'best-selling' %} selected{% endif %}>Meilleures ventes</option>
+          <option value="price-ascending"{% if sort == 'price-ascending' %} selected{% endif %}>Prix croissant</option>
+          <option value="price-descending"{% if sort == 'price-descending' %} selected{% endif %}>Prix décroissant</option>
+          <option value="created-descending"{% if sort == 'created-descending' %} selected{% endif %}>Nouveautés</option>
+        </select>
+      </form>
+    </div>
+
+    <div class="collection-page__grid fcollection__grid--{{ section.settings.columns }}">
+      {%- paginate collection.products by section.settings.per_page -%}
+        {%- for product in collection.products -%}
+          <a href="{{ product.url }}" class="pcard">
+            <div class="pcard__media">
+              {%- if product.featured_image -%}
+                {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'pcard__img', alt: product.title }}
+                {%- if product.images[1] -%}{{ product.images[1] | image_url: width: 600 | image_tag: loading: 'lazy', class: 'pcard__img pcard__img--hover', alt: product.title }}{%- endif -%}
+              {%- else -%}
+                <div class="pcard__img pcard__img--ph">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+              {%- endif -%}
+              {%- if product.compare_at_price > product.price -%}
+                {%- assign pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+                <span class="pcard__badge">-{{ pct }}%</span>
+              {%- endif -%}
+            </div>
+            <div class="pcard__info">
+              <h3 class="pcard__title">{{ product.title }}</h3>
+              <div class="pcard__price">
+                {%- if product.compare_at_price > product.price -%}<s>{{ product.compare_at_price | money }}</s>{%- endif -%}
+                <span>{{ product.price | money }}</span>
+              </div>
+            </div>
+          </a>
+        {%- else -%}
+          <p class="collection-page__empty">Aucun produit dans cette collection.</p>
+        {%- endfor -%}
+
+        {%- if paginate.pages > 1 -%}
+          <nav class="pagination">
+            {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}" class="pagination__link">‹</a>{%- endif -%}
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}
+                <a href="{{ part.url }}" class="pagination__link">{{ part.title }}</a>
+              {%- else -%}
+                <span class="pagination__link pagination__link--current">{{ part.title }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if paginate.next -%}<a href="{{ paginate.next.url }}" class="pagination__link">›</a>{%- endif -%}
+          </nav>
+        {%- endif -%}
+      {%- endpaginate -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    { "type": "select", "id": "columns", "label": "Colonnes", "options": [ { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" } ], "default": "4" },
+    { "type": "range", "id": "per_page", "label": "Produits par page", "min": 8, "max": 36, "step": 4, "default": 24 }
+  ]
+}
+{% endschema %}
